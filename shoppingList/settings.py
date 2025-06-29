@@ -30,7 +30,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 logging.basicConfig(level=logging.DEBUG)
 
-ALLOWED_HOSTS = ['Lucirion_shopping_list_app.onrender.com']
+ALLOWED_HOSTS = ['lucirion-shopping-list-app.onrender.com']
 
 # Application definition
 
@@ -136,12 +136,12 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'shopping_list'
 LOGOUT_REDIRECT_URL = 'home'
 
-# used by PasswordResetView to build the absolute URL
+# Used by PasswordResetView to build the absolute URL
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 
-EMAIL_BACKEND = config('EMAIL_BACKEND')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+# Mailjet API credentials from the .env file
+MAILJET_API_KEY = config('MAILJET_API_KEY')
+MAILJET_API_SECRET = config('MAILJET_API_SECRET')
+
+# Sender email
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
