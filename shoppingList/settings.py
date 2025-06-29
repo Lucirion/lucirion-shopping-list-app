@@ -30,7 +30,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 logging.basicConfig(level=logging.DEBUG)
 
-ALLOWED_HOSTS = ['lucirion-shopping-list-app.onrender.com']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
