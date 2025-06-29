@@ -1,0 +1,29 @@
+{% extends 'shoppinglistApp/base.html' %}
+
+{% block content %}
+  <div class="form-header">
+    <h2>ログイン</h2>
+
+    {% if form.errors %}
+      <div class="error-message">
+        ログインエラー. メールアドレスとパスワードをご確認ください。
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-column">
+        <label for="id_username">メール</label>
+        {{ form.username }}
+
+        <label for="id_password">パスワード</label>
+        {{ form.password }}
+
+        <button for="id_login" type="submit">ログイン</button>
+      </div>
+    </form>
+    <p><a href="{% url 'password_reset' %}">パスワードリセット</a></p>
+    <p>アカウントを持っていませんか。 <a href="{% url 'signup_jp' %}">こちらにサインアップ</a>.</p>
+  </div>
+{% endblock %}
+

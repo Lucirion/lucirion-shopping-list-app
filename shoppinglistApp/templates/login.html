@@ -1,0 +1,29 @@
+{% extends 'shoppinglistApp/base.html' %}
+
+{% block content %}
+  <div class="form-header">
+    <h2>Login</h2>
+
+    {% if form.errors %}
+      <div class="error-message">
+        Invalid login. Please check your email and password.
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-column">
+        <label for="id_username">Email</label>
+        {{ form.username }}
+
+        <label for="id_password">Password</label>
+        {{ form.password }}
+
+        <button for="id_login" type="submit">Login</button>
+      </div>
+    </form>
+    <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+    <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a>.</p>
+  </div>
+{% endblock %}
+

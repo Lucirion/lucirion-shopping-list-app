@@ -1,0 +1,52 @@
+{% extends 'shoppinglistApp/base.html' %}
+
+{% block title %}買い物リスト{% endblock %}
+
+{% block content %}
+<div class="logout-area">
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">ログアウト</button>
+  </form>
+</div>
+
+  <div class="container">
+    <div class="form-header">
+      <h2>買い物リスト</h2>
+      <form class="shopping_list_form" method="post">
+        {% csrf_token %}
+        <div class="form-column">
+          <input type="text" id="title" name="title" placeholder="">
+          <button type="submit">追加</button>
+        </div>
+      </form>
+    </div>
+  <hr>
+
+  {% if items %}
+    <ul class="grid-list">
+      {% for item in items %}
+        <li class="{% if item.completed %}completed{% endif %}">
+          <input type="checkbox" onchange="toggleOptions(this)">
+          <span class="item-title">{{ item.title }}{% if item.completed %} ✅{% endif %}</span>
+          <span class="options" style="display: none;">
+            <button onclick="window.location.href='{% url 'toggle_completed_jp' item.id %}'">
+              {% if item.completed %}↩ 元に戻す{% else %}✔ 完了{% endif %}
+            </button>
+            <button onclick="window.location.href='{% url 'edit_item_jp' item.id %}'">編集</button>
+            <button onclick="window.location.href='{% url 'delete_item_jp' item.id %}'">🗑 消す</button>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <script>
+      function toggleOptions(checkbox) {
+        const options = checkbox.nextElementSibling.nextElementSibling;
+        options.style.display = checkbox.checked ? 'inline' : 'none';
+      }
+    </script>
+  {% else %}
+    <p>まだアイテムはありません</p>
+  {% endif %}
+{% endblock %}

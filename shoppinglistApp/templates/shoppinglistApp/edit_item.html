@@ -1,0 +1,12 @@
+{% extends "shoppinglistApp/base.html" %}
+{% block title %}Edit Item{% endblock %}
+
+{% block content %}
+  <h2 class="edit-list">Edit Shopping Item</h2>
+  <form class="edit-list"method="post">
+    {% csrf_token %}
+    <input type="text" name="title" value="{{ item.title }}" required>
+    <button type="submit">Save</button>
+    <a href="{% url 'shopping_list' %}">Cancel</a>
+  </form>
+{% endblock %}

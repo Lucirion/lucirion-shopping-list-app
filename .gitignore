@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+env/
+
+# Django
+db.sqlite3
+*.log
+
+# Environment variables
+.env
+
+# Static files (optional if collected)
+staticfiles/
+
+# Editor/OS files
+.vscode/
+.DS_Store

@@ -1,0 +1,285 @@
+.home {
+/*    background-color: #056886; */
+    font-family: sans-serif;
+    padding: 0;
+    text-align: center;
+}
+
+.home-container {
+  font-family: sans-serif;
+  padding: 2rem;
+  text-align: center;
+}
+
+.home-container a {
+  margin: 0.5rem;
+  text-decoration: none;
+  color: white;
+  background-color: #056886;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+.primary-button a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  min-width: 180px;
+  font-size: 1rem;
+  background-color: #056886;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;  /* reduce vertical spacing below */
+  box-sizing: border-box;
+}
+.secondary-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.secondary-buttons a {
+  min-width: 180px;
+  text-align: center;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.secondary-buttons a:hover {
+  background-color: #056886;
+}
+
+
+body {
+    font-family: sans-serif;
+    background-image: url('/static/images/beautiful_sky_and_sea.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #03293a;
+/*    background-color: #e9dac7; */
+    margin: 0;
+    padding: 40px;
+}
+
+ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+h2 {
+    margin-top: 0;    
+}
+
+.edit-list {
+    text-align: center;
+}
+
+.item-title {
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.options button {
+    margin-left: 0.5rem;
+}
+
+.completed .item-title {
+    color: #888;
+    font-style: italic;
+    opacity: 0,8;
+}
+
+.completed {
+    background-color: #e9dac7;
+}
+
+
+.form-header {
+    background-color: #fce6aa;
+    padding: 10px 30px;
+    border-bottom: 0.5px solid #979797;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button.remove {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+.grid-list li {
+  background-color: #fce6aa;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+}
+
+
+
+/* Scaling for desktop & tablets below */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+/* Scaling for desktop & tablets above */
+
+/* Mobile scaling below */
+@media (max-width: 600px) {
+
+  .container {
+    padding: 16px;
+  }
+
+  .form-column {
+    max-width: 100%;
+  }
+
+  .form-column input[type="text"],
+  .form-column input[type="password"],
+  .form-column button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .options button {
+    width: 100%;
+  }
+
+  li {
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+}
+
+/* Mobile scaling above */
+
+/* Portrait/vertical mobile view below */
+@media (max-width: 600px) and (orientation: portrait) {
+  .grid-list {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0px;
+  }
+  .form-header {
+    padding: 24px 16px;
+  }
+
+  .form-column {
+    max-width: 100%;
+  }
+
+  .grid-list li {
+    font-size: 1rem;
+    text-align: left;
+    padding: 20px 16px;
+  }
+}
+/* Portrait/vertical mobile view above */
+
+/* Logout button below */
+.logout-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logout-area button {
+  float: right;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .logout-area {
+    max-width: 1000px; /* Adjust this to match your form’s width */
+    position: relative;
+    top: 100px;
+    right: 10px;
+    justify-content: flex-end;
+    padding-right: 1rem; /* Optional nudge for visual alignment */
+  }
+}
+
+/* Logout button above */
+
+/* Language switching button */
+
+.language-switcher {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.language-switcher a {
+  color: #056886;
+  background-color: #fff7d5;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  transition: background-color 0.2s ease;
+}
+
+.language-switcher a:hover {
+  background-color: #ffeaa7;
+}

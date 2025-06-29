@@ -1,0 +1,52 @@
+{% extends 'shoppinglistApp/base.html' %}
+
+{% block title %}Shopping List{% endblock %}
+
+{% block content %}
+<div class="logout-area">
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+  </form>
+</div>
+
+  <div class="container">
+    <div class="form-header">
+      <h2>Shopping List</h2>
+      <form class="shopping_list_form" method="post">
+        {% csrf_token %}
+        <div class="form-column">
+          <input type="text" id="title" name="title" placeholder="">
+          <button type="submit">Add</button>
+        </div>
+      </form>
+    </div>
+  <hr>
+
+  {% if items %}
+    <ul class="grid-list">
+      {% for item in items %}
+        <li class="{% if item.completed %}completed{% endif %}">
+          <input type="checkbox" onchange="toggleOptions(this)">
+          <span class="item-title">{{ item.title }}{% if item.completed %} ✅{% endif %}</span>
+          <span class="options" style="display: none;">
+            <button onclick="window.location.href='{% url 'toggle_completed' item.id %}'">
+              {% if item.completed %}↩ Undo{% else %}✔ Completed{% endif %}
+            </button>
+            <button onclick="window.location.href='{% url 'edit_item' item.id %}'">Edit</button>
+            <button onclick="window.location.href='{% url 'delete_item' item.id %}'">🗑 Remove</button>
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <script>
+      function toggleOptions(checkbox) {
+        const options = checkbox.nextElementSibling.nextElementSibling;
+        options.style.display = checkbox.checked ? 'inline' : 'none';
+      }
+    </script>
+  {% else %}
+    <p>No items yet.</p>
+  {% endif %}
+{% endblock %}

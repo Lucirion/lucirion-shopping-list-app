@@ -1,0 +1,17 @@
+{% extends 'shoppinglistApp/base.html' %}
+
+{% block content %}
+  <div class="form-header">
+    <h2>Create Your Account</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-column">
+        {{ form.email.label_tag }} {{ form.email }}
+        {{ form.password1.label_tag }} {{ form.password1 }}
+        {{ form.password2.label_tag }} {{ form.password2 }}
+        <button type="submit">Sign Up</button>
+        <a href="{% url 'login' %}">Back to login page</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
