@@ -5,11 +5,9 @@
   <meta charset="UTF-8">
   <title>{% block title %}Shopping List{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% load static %}
   <link rel="stylesheet" href="{% static 'shoppinglistApp/css/style.css' %}">
 </head>
 <body>
-
   <div class="language-switcher">
     {% if '/jp/' in request.path %}
       <a href="/">English</a>
@@ -17,8 +15,6 @@
       <a href="/jp/">日本語</a>
     {% endif %}
   </div>
-
-
 
   <div class="container">
     {% block content %}
