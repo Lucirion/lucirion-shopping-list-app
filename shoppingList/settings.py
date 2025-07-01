@@ -15,6 +15,8 @@ from decouple import config
 import logging
 import os
 
+logging.basicConfig(level=logging.INFO)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -122,6 +124,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # STATICFILES_DIRS = [
 #    BASE_DIR / 'shoppinglistApp/static',
 #]

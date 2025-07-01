@@ -2,21 +2,21 @@
 {% block title %}買い物リストアプリへようこそ！{% endblock %}
 
 {% block content %}
-  <div class="home-container">
-    <h1 class="home">買い物リストアプリへようこそ！</h1>
-    <p class="home">アプリを使うの為に口座を作ってください。</p>
+<div class="home-container">
+  <h1 class="home">買い物リストアプリへようこそ！</h1>
+  <p class="home">アプリを使うの為に口座を作ってください。</p>
 
-    <div class="primary-button">
-      <a href="{% url 'signup_jp' %}">アカウントを作る</a>
-  </div>
+  <div class="primary-button">
+    <a href="{% url 'signup_jp' %}">アカウントを作る</a>
+</div>
 
-    <div class="secondary-buttons">
-      <a href="{% url 'login_jp' %}">ログイン</a>
-        {% if user.is_authenticated %}
-          <a href="{% url 'shopping_list_jp' %}">リストへ</a>
-        {% else %}
-          <a href="{% url 'login_jp' %}?next={% url 'shopping_list_jp' %}">リストへ</a>
-        {% endif %}
+  <div class="secondary-buttons">
+    <a href="{% url 'login_jp' %}">ログイン</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'shopping_list_jp' %}">リストへ</a>
+      {% else %}
+        <a href="{% url 'login_jp' %}?next={% url 'shopping_list_jp' %}">リストへ</a>
+      {% endif %}
   </div>
 </div>
 {% endblock %}

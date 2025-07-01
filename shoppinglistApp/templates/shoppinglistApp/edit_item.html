@@ -2,6 +2,7 @@
 {% block title %}Edit Item{% endblock %}
 
 {% block content %}
+<div class="form-header">
   <h2 class="edit-list">Edit Shopping Item</h2>
   <form class="edit-list"method="post">
     {% csrf_token %}
@@ -9,4 +10,5 @@
     <button type="submit">Save</button>
     <a href="{% url 'shopping_list' %}">Cancel</a>
   </form>
+</div>
 {% endblock %}

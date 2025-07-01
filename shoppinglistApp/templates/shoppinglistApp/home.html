@@ -2,17 +2,17 @@
 {% block title %}Welcome to the Shopping List App{% endblock %}
 
 {% block content %}
-  <div class="home-container">
-    <h1 class="home">Welcome to the shopping list app!</h1>
-    <p class="home">To access the rest of the app please create your account.</p>
+<div class="home-container">
+  <h1 class="home">Welcome to the shopping list app!</h1>
+  <p class="home">To access the rest of the app please create your account.</p>
 
-    <div class="primary-button">
-      <a href="{% url 'signup' %}">Create an Account</a>
-    </div>
-
-    <div class="secondary-buttons">
-      <a href="{% url 'login' %}">Login</a>
-      <a href="{% url 'shopping_list' %}">Go to your list</a>
-    </div>
+  <div class="primary-button">
+    <a href="{% url 'signup' %}">Create an Account</a>
   </div>
+
+  <div class="secondary-buttons">
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'shopping_list' %}">Go to your list</a>
+  </div>
+</div>
 {% endblock %}
