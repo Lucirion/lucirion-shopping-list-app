@@ -8,11 +8,12 @@ https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 import os
 from dotenv import load_dotenv
-from django.core.wsgi import get_wsgi_application
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shoppingList.settings')
 
 project_folder = os.path.expanduser('~/lucirion-shopping-list-app')
 load_dotenv(os.path.join(project_folder, '.env'))
 
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
