@@ -10,10 +10,6 @@ from django.contrib.auth.views import LoginView
 from .forms import EmailOnlySignUpForm
 from .models import ShoppingItem
 
-from django.http import HttpResponse
-from django.core.mail import send_mail
-import logging
-
 # Create your views here.
 
 logger = logging.getLogger(__name__)
