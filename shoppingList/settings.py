@@ -5,6 +5,11 @@ from decouple import config
 import logging
 import os
 
+# ─── Username Case Sensitivity ─────────────────────────────────────────────────────────────
+AUTHENTICATION_BACKENDS = [
+    'shoppinglistApp.auth_backend.CaseInsensitiveEmailBackend',
+]
+
 # ─── Paths ─────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
 
