@@ -138,7 +138,11 @@ def delete_item_jp(request, item_id):
 
 logger = logging.getLogger(__name__)
 
+from django.contrib.auth.forms import PasswordResetForm
+
 class DebugPasswordResetView(PasswordResetView):
+    form_class = PasswordResetForm  # Still using this, but we'll override logic
+
     def form_valid(self, form):
         email = form.cleaned_data["email"]
         logger.warning("📨 PasswordResetView triggered for: %s", email)
@@ -147,7 +151,7 @@ class DebugPasswordResetView(PasswordResetView):
         try:
             user = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
-            return super().form_valid(form)
+            return self.render_to_response(self.get_context_data(form=form))  # Skip sending
 
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
@@ -170,7 +174,9 @@ class DebugPasswordResetView(PasswordResetView):
         mail.send()
         logger.warning("✅ Single manual reset email sent to: %s", email)
 
-        return super().form_valid(form)
+        # Just redirect to done view—skip parent's form_valid logic
+        return redirect('password_reset_done')
+
 
 
 
