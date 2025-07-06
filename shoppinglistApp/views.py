@@ -18,17 +18,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def test_email_send(request):
-    logger.warning("📬 Email send TRIGGERED from test-email view")
-    send_mail(
-        subject="Test Email",
-        message="This is a test email sent from PythonAnywhere.",
-        from_email="lucirion.no.reply@gmail.com",
-        recipient_list=["your@email.com"],  # Replace with your test address
-        fail_silently=False,
-    )
-    return HttpResponse("Email sent.")
-
 class CustomLoginView(LoginView):
     template_name = 'login.html'
     def get_success_url(self):
@@ -139,3 +128,20 @@ def delete_item_jp(request, item_id):
     item = get_object_or_404(ShoppingItem, id=item_id)
     item.delete()
     return redirect('shopping_list_jp')
+
+from django.http import HttpResponse
+from django.core.mail import send_mail
+import logging
+
+logger = logging.getLogger(__name__)
+
+def test_email_send(request):
+    logger.warning("📬 Email send TRIGGERED from test-email view")
+    send_mail(
+        subject="Test Email",
+        message="This is a test email sent from PythonAnywhere.",
+        from_email="lucirion.no.reply@gmail.com",
+        recipient_list=["your@email.com"],
+        fail_silently=False,
+    )
+    return HttpResponse("Test email was sent.")
