@@ -142,7 +142,7 @@ def test_email_send(request):
         subject="Test Email",
         message="This is a test email sent from PythonAnywhere.",
         from_email="lucirion.no.reply@gmail.com",
-        recipient_list=["your@email.com"],
+        recipient_list=["lucas_95sjolund@hotmail.com"],
         fail_silently=False,
     )
     return HttpResponse("Test email was sent.")
