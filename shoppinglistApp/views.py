@@ -15,6 +15,14 @@ import logging
 from django.contrib.auth.views import PasswordResetView
 
 
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.contrib.auth import get_user_model
+
 # Create your views here.
 
 class CustomLoginView(LoginView):
@@ -132,9 +140,39 @@ logger = logging.getLogger(__name__)
 
 class DebugPasswordResetView(PasswordResetView):
     def form_valid(self, form):
-        email = form.cleaned_data['email']
-        logger.warning("📨 Password reset form triggered for: %s", email)
+        email = form.cleaned_data["email"]
+        logger.warning("📨 PasswordResetView triggered for: %s", email)
+
+        UserModel = get_user_model()
+        try:
+            user = UserModel.objects.get(email=email)
+        except UserModel.DoesNotExist:
+            return super().form_valid(form)
+
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        domain = get_current_site(self.request).domain
+        reset_link = f"https://{domain}/reset/{uid}/{token}/"
+        logger.warning("🔗 Password reset link: %s", reset_link)
+
+        subject = "Reset your password"
+        message = render_to_string("registration/password_reset_email.html", {
+            "email": email,
+            "domain": domain,
+            "site_name": "Your App",
+            "uid": uid,
+            "user": user,
+            "token": token,
+            "protocol": "https" if self.request.is_secure() else "http",
+        })
+
+        mail = EmailMessage(subject, message, to=[email])
+        mail.send()
+        logger.warning("✅ Single manual reset email sent to: %s", email)
+
         return super().form_valid(form)
+
+
 
 def test_email_send(request):
     logger.warning("📬 Email send TRIGGERED from test-email view")
