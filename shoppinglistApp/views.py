@@ -23,6 +23,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
 from .forms import NoOpPasswordResetForm
+from django.contrib.auth.forms import PasswordResetForm
 
 # Create your views here.
 
@@ -139,12 +140,10 @@ def delete_item_jp(request, item_id):
 
 logger = logging.getLogger(__name__)
 
-from django.contrib.auth.forms import PasswordResetForm
 
 class DebugPasswordResetView(PasswordResetView):
-
     form_class = NoOpPasswordResetForm
-    
+
     def form_valid(self, form):
         email = form.cleaned_data["email"]
         logger.warning("📨 PasswordResetView triggered for: %s", email)
@@ -172,11 +171,15 @@ class DebugPasswordResetView(PasswordResetView):
             "protocol": "https" if self.request.is_secure() else "http",
         })
 
-        mail = EmailMessage(subject, message, to=[email])
-        mail.send()
+        mail = EmailMessage(
+            subject,
+            message,
+            from_email="lucirion.no.reply@gmail.com",
+            to=[email]
+        )
+        mail.send(fail_silently=False)
         logger.warning("✅ Single manual reset email sent to: %s", email)
 
-        # Just redirect to done view—skip parent's form_valid logic
         return redirect('password_reset_done')
 
 
