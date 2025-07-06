@@ -33,7 +33,7 @@
             <button onclick="window.location.href='{% url 'toggle_completed' item.id %}'">
               {% if item.completed %}↩ Undo{% else %}✔ Completed{% endif %}
             </button>
-            <button onclick="window.location.href='{% url 'edit_item' item.id %}'">Edit</button>
+            <button onclick="window.location.href='{% url 'edit_item' item.id %}'">✏️ Edit</button>
             <button onclick="window.location.href='{% url 'delete_item' item.id %}'">🗑 Remove</button>
           </span>
         </li>

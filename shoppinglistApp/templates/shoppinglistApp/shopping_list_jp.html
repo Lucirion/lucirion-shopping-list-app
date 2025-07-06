@@ -33,7 +33,7 @@
             <button onclick="window.location.href='{% url 'toggle_completed_jp' item.id %}'">
               {% if item.completed %}↩ 元に戻す{% else %}✔ 完了{% endif %}
             </button>
-            <button onclick="window.location.href='{% url 'edit_item_jp' item.id %}'">編集</button>
+            <button onclick="window.location.href='{% url 'edit_item_jp' item.id %}'">✏️ 編集</button>
             <button onclick="window.location.href='{% url 'delete_item_jp' item.id %}'">🗑 消す</button>
           </span>
         </li>
