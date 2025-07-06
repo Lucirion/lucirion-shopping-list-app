@@ -11,7 +11,20 @@ logger = logging.getLogger(__name__)
 class DebugPasswordResetView(PasswordResetView):
     def form_valid(self, form):
         email = form.cleaned_data['email']
-        logger.warning("📨 Password reset form triggered for: %s", email)
+        logger.warning("📨 PasswordResetView triggered for: %s", email)
+
+        try:
+            logger.warning("💥 About to run form.save()...")
+            form.save(
+                request=self.request,
+                use_https=self.request.is_secure(),
+                from_email=None,
+                email_template_name='registration/password_reset_email.html',
+            )
+            logger.warning("✅ form.save() completed.")
+        except Exception as e:
+            logger.error("❌ Error during form.save(): %s", e)
+
         return super().form_valid(form)
 
 urlpatterns = [
