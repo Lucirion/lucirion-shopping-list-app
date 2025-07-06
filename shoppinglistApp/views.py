@@ -12,10 +12,10 @@ from .models import ShoppingItem
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import logging
+from django.contrib.auth.views import PasswordResetView
+
 
 # Create your views here.
-
-logger = logging.getLogger(__name__)
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
@@ -129,6 +129,12 @@ def delete_item_jp(request, item_id):
     return redirect('shopping_list_jp')
 
 logger = logging.getLogger(__name__)
+
+class DebugPasswordResetView(PasswordResetView):
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        logger.warning("📨 Password reset form triggered for: %s", email)
+        return super().form_valid(form)
 
 def test_email_send(request):
     logger.warning("📬 Email send TRIGGERED from test-email view")

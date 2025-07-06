@@ -2,6 +2,17 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+import logging
+from django.contrib.auth.views import PasswordResetView
+
+logger = logging.getLogger(__name__)
+
+class DebugPasswordResetView(PasswordResetView):
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        logger.warning("📨 Password reset form triggered for: %s", email)
+        return super().form_valid(form)
+
 urlpatterns = [
 
     path('test-email/', views.test_email_send),
