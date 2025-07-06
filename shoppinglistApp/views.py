@@ -22,6 +22,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
+from .forms import NoOpPasswordResetForm
 
 # Create your views here.
 
@@ -141,8 +142,9 @@ logger = logging.getLogger(__name__)
 from django.contrib.auth.forms import PasswordResetForm
 
 class DebugPasswordResetView(PasswordResetView):
-    form_class = PasswordResetForm  # Still using this, but we'll override logic
 
+    form_class = NoOpPasswordResetForm
+    
     def form_valid(self, form):
         email = form.cleaned_data["email"]
         logger.warning("📨 PasswordResetView triggered for: %s", email)

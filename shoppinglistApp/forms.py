@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
 
 class EmailOnlySignUpForm(UserCreationForm):
@@ -16,3 +16,8 @@ class EmailOnlySignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class NoOpPasswordResetForm(PasswordResetForm):
+    def save(self, *args, **kwargs):
+        # Override default behavior to stop Django from sending its own password reset email
+        pass
