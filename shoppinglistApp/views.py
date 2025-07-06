@@ -10,7 +10,24 @@ from django.contrib.auth.views import LoginView
 from .forms import EmailOnlySignUpForm
 from .models import ShoppingItem
 
+from django.http import HttpResponse
+from django.core.mail import send_mail
+import logging
+
 # Create your views here.
+
+logger = logging.getLogger(__name__)
+
+def test_email_send(request):
+    logger.warning("📬 Email send TRIGGERED from test-email view")
+    send_mail(
+        subject="Test Email",
+        message="This is a test email sent from PythonAnywhere.",
+        from_email="lucirion.no.reply@gmail.com",
+        recipient_list=["your@email.com"],  # Replace with your test address
+        fail_silently=False,
+    )
+    return HttpResponse("Email sent.")
 
 class CustomLoginView(LoginView):
     template_name = 'login.html'
