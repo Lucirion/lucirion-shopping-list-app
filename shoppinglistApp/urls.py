@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+from .views import DebugPasswordResetView
 import logging
 from django.contrib.auth.views import PasswordResetView
 
@@ -41,9 +42,15 @@ urlpatterns = [
     path('jp/remove/<int:item_id>', views.delete_item_jp, name='delete_item_jp'),
 
     # Password reset
-    path('password-reset/', auth_views.PasswordResetView.as_view(
+
+    path('password-reset/', DebugPasswordResetView.as_view(
         template_name='registration/password_reset_form.html'
-    ), name='password_reset'),
+), name='password_reset'),
+
+    
+    # path('password-reset/', auth_views.PasswordResetView.as_view(
+    #    template_name='registration/password_reset_form.html'
+    #), name='password_reset'),
 
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='registration/password_reset_done.html'
