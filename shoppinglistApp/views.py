@@ -9,6 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from .forms import EmailOnlySignUpForm
 from .models import ShoppingItem
+from django.http import HttpResponse
+from django.core.mail import send_mail
+import logging
 
 # Create your views here.
 
@@ -124,10 +127,6 @@ def delete_item_jp(request, item_id):
     item = get_object_or_404(ShoppingItem, id=item_id)
     item.delete()
     return redirect('shopping_list_jp')
-
-from django.http import HttpResponse
-from django.core.mail import send_mail
-import logging
 
 logger = logging.getLogger(__name__)
 
