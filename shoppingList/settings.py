@@ -157,4 +157,21 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # MAILJET_API_SECRET = config('MAILJET_API_SECRET')
 
 # Sender email
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # Log all django.core.mail activity at DEBUG level
+        'django.core.mail': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}

@@ -4,26 +4,22 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-from .forms import EmailOnlySignUpForm
-from .models import ShoppingItem
+from django.contrib.auth.views import LoginView, PasswordResetView
 from django.http import HttpResponse
-from django.core.mail import send_mail
-import logging
-from django.contrib.auth.views import PasswordResetView
-
-
-from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, EmailMessage
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
-from django.contrib.auth import get_user_model
-from .forms import NoOpPasswordResetForm
-from django.contrib.auth.forms import PasswordResetForm
+import logging
+
+from .forms import EmailOnlySignUpForm, NoOpPasswordResetForm
+from .models import ShoppingItem
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -138,48 +134,55 @@ def delete_item_jp(request, item_id):
     item.delete()
     return redirect('shopping_list_jp')
 
-logger = logging.getLogger(__name__)
-
-
 class DebugPasswordResetView(PasswordResetView):
     form_class = NoOpPasswordResetForm
+    template_name = 'registration/password_reset_form.html'
 
     def form_valid(self, form):
-        email = form.cleaned_data["email"]
-        logger.warning("📨 PasswordResetView triggered for: %s", email)
+        email = form.cleaned_data['email']
+        logger.warning("📨 Reset requested for: %s", email)
 
+        # 1. Lookup user
         UserModel = get_user_model()
         try:
             user = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
-            return self.render_to_response(self.get_context_data(form=form))  # Skip sending
+            # If no user, re-render form without sending
+            return self.render_to_response(self.get_context_data(form=form))
 
+        # 2. Generate token & URL
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
         domain = get_current_site(self.request).domain
-        reset_link = f"https://{domain}/reset/{uid}/{token}/"
-        logger.warning("🔗 Password reset link: %s", reset_link)
+        reset_link = f"{self.request.scheme}://{domain}/reset/{uid}/{token}/"
+        logger.warning("🔗 Reset link: %s", reset_link)
 
+        # 3. Render email body
         subject = "Reset your password"
-        message = render_to_string("registration/password_reset_email.html", {
-            "email": email,
-            "domain": domain,
-            "site_name": "Your App",
-            "uid": uid,
-            "user": user,
-            "token": token,
-            "protocol": "https" if self.request.is_secure() else "http",
+        message = render_to_string('registration/password_reset_email.html', {
+            'user': user,
+            'domain': domain,
+            'uid': uid,
+            'token': token,
+            'protocol': self.request.scheme,
         })
+        logger.debug("📩 Email body:\n%s", message)
 
+        # 4. Send one explicit email
         mail = EmailMessage(
             subject,
             message,
             from_email="lucirion.no.reply@gmail.com",
-            to=[email]
+            to=[email],
         )
-        mail.send(fail_silently=False)
-        logger.warning("✅ Single manual reset email sent to: %s", email)
+        try:
+            mail.send(fail_silently=False)
+            logger.warning("✅ Email sent to %s", email)
+        except Exception as e:
+            logger.error("🚨 Email send failed: %s", e)
+            # Optionally re-raise or display an error page
 
+        # 5. Redirect to “done” page
         return redirect('password_reset_done')
 
 

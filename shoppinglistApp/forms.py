@@ -11,7 +11,7 @@ class EmailOnlySignUpForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = self.cleaned_data["email"]  # use email as username internally
+        user.username = self.cleaned_data["email"]
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
@@ -19,5 +19,5 @@ class EmailOnlySignUpForm(UserCreationForm):
 
 class NoOpPasswordResetForm(PasswordResetForm):
     def save(self, *args, **kwargs):
-        # Override default behavior to stop Django from sending its own password reset email
+        # Prevent Django’s default email send
         pass
