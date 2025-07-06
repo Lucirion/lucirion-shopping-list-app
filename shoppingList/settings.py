@@ -5,6 +5,11 @@ from decouple import config
 import logging
 import os
 
+
+# ─── Expire Function for Demo ─────────────────────────────────────────────────────────────
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
 # ─── Username Case Sensitivity ─────────────────────────────────────────────────────────────
 AUTHENTICATION_BACKENDS = [
     'shoppinglistApp.auth_backend.CaseInsensitiveEmailBackend',

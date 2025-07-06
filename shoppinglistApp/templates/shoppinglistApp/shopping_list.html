@@ -3,6 +3,15 @@
 {% block title %}Shopping List{% endblock %}
 
 {% block content %}
+
+{% if "demo_" in user.username %}
+  <div class="alert alert-info" style="margin: 20px 0;">
+    🔍 You are using the <strong>demo version</strong>. Data will not be saved and will be removed soon.
+  </div>
+{% endif %}
+
+  <!-- Rest of the page -->
+
 <div class="logout-area">
   <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}

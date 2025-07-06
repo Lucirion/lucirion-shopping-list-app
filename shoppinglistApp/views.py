@@ -6,6 +6,8 @@ import logging
 from django.contrib.auth import (
     login, logout, get_user_model
 )
+from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import (
@@ -24,6 +26,8 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from .forms import EmailOnlySignUpForm, NoOpPasswordResetForm
 from .models import ShoppingItem
+from django.utils.crypto import get_random_string
+
 
 logger = logging.getLogger(__name__)
 
@@ -180,6 +184,17 @@ class DebugPasswordResetView(PasswordResetView):
 
         return redirect('password_reset_done')
 
+
+# ─── Demo For People to Test ───────────────────────────────────────────────
+
+def demo_login(request):
+    username = f"demo_{get_random_string(8)}"
+    user = User.objects.create_user(username=username)
+    user.set_unusable_password()
+    user.save()
+
+    login(request, user)
+    return redirect('shopping_list')
 
 # ─── Manual Email Test Endpoint ───────────────────────────────────────────────
 

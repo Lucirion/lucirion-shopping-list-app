@@ -53,4 +53,8 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
+
+    # Demo function linking
+    path('demo-login/', views.demo_login, name='demo_login'),
+
 ]
